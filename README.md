@@ -85,5 +85,6 @@ Always call the method with the header Accept: 'application/json' for the valida
 
 
 ## Tips
-https://www.tutsmake.com/laravel-9-rest-api-with-passport-authentication-tutorial/
+- https://www.tutsmake.com/laravel-9-rest-api-with-passport-authentication-tutorial/
+- https://onlinewebtutorblog.com/laravel-9-rest-api-development-using-passport-tutorial/
 
