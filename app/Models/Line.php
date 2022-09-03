@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Brand extends Model
+class Line extends Model
 {
     use HasFactory;
 
     protected $connection = 'ridergarage';
-    protected $primaryKey = 'idbrand';
+    protected $primaryKey = 'idline';
 
     /**
      * The attributes that are mass assignable.
@@ -18,14 +18,19 @@ class Brand extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'idbrand',
         'label',
         'image_small',
         'code_ravenol',
     ];
 
-    public function lines()
+    public function brand()
     {
-        return $this->hasMany(Line::class,'idbrand','idbrand');
+        return $this->belongsTo(Brand::class, 'idbrand', 'idbrand');
     }
 
+    public function motorcycles()
+    {
+        return $this->hasMany(Motorcycle::class,'idline','idline');
+    }
 }

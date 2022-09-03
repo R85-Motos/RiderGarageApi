@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BrandController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\LineController;
+use App\Http\Controllers\MotorcycleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +22,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('brand', BrandController::class)->middleware('auth:api');
-
 Route::group([
     'prefix' => 'auth'
 ], function () {
@@ -36,4 +36,12 @@ Route::group([
     });
 });
 
+
+Route::group([
+    'middleware' => 'auth:api'
+], function() {
+    Route::apiResource('brand', BrandController::class);
+    Route::apiResource('line', LineController::class);
+    Route::apiResource('motorcycle', MotorcycleController::class);
+});
 

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Line;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\BrandResource;
-//use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\LineResource;
 
-class BrandController extends Controller
+class LineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +17,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        
-        $brands = Brand::all();
-        return response([ 'data' => BrandResource::collection($brands), 'message' => 'Retrieved successfully'], 200);
+        $lines = Line::with('brand')->get();
+        return response([ 'data' => LineResource::collection($lines), 'message' => 'Retrieved successfully'], 200);
     }
 
     /**
@@ -33,47 +32,48 @@ class BrandController extends Controller
         $data = $request->all();
 
         $request->validate([
-            'label' => 'required|string|min:3|max:100|unique:ridergarage.brands',
+            'idbrand' => 'required|int|min:1',
+            'label' => 'required|string|min:3|max:100|unique:ridergarage.lines',
             'code_revenol' => 'string|max:150'
         ]);
 
-        $brand = Brand::create($data);
-        return response([ 'data' => new BrandResource($brand), 'message' => 'Created successfully'], 200);
+        $line = Line::create($data);
+        return response([ 'data' => new LineResource($line), 'message' => 'Created successfully'], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Brand  $brand
+     * @param  \App\Models\Line  $line
      * @return \Illuminate\Http\Response
      */
-    public function show(Brand $brand)
+    public function show(Line $line)
     {
-        return response([ 'data' => new BrandResource($brand), 'message' => 'Retrieved successfully'], 200);
+        return response([ 'data' => new LineResource($line), 'message' => 'Retrieved successfully'], 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Brand  $brand
+     * @param  \App\Models\Line  $line
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Brand $brand)
+    public function update(Request $request, Line $line)
     {
-        $brand->update($request->all());
-        return response([ 'data' => new BrandResource($brand), 'message' => 'Updated successfully'], 200);
+        $line->update($request->all());
+        return response([ 'data' => new LineResource($line), 'message' => 'Updated successfully'], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Brand  $brand
+     * @param  \App\Models\Line  $line
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Brand $brand)
+    public function destroy(Line $line)
     {
-        $brand->delete();
+        $line->delete();
         return response(['message' => 'Deleted successfully'], 200);
     }
 }
